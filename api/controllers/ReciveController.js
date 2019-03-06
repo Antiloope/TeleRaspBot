@@ -13,7 +13,7 @@ bot.onText(/\/octoprint start/, (msg, match) => {
   // of the message
 
   const chatId = msg.chat.id;
-  shell.exec('~/OctoPrint/venv/bin/octoprint serve');
+  shell.exec('~/OctoPrint/venv/bin/octoprint serve &');
   //const resp = match[1]; // the captured "whatever"
 
   // send back the matched "whatever" to the chat
