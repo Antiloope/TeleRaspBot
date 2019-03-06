@@ -2,7 +2,6 @@
 
 LOGFILE="OctoprintServer.log"
 
-echo "Starting octoprint server"
-exec nohup ~/OctoPrint/venv/bin/octoprint serve > $LOGFILE
-echo "    DONE - Log file: $LOGFILE "
+echo "Starting octoprint server - Log file: $LOGFILE"
+~/OctoPrint/venv/bin/octoprint serve > $LOGFILE
 exit 1

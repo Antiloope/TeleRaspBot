@@ -18,7 +18,7 @@ bot.onText(/\/octoprint (.+)/, (msg, match) => {
   const command = match[1]; // the captured "whatever"
 
   if(command === 'start'){
-    shell.exec('BashScripts/OctoprintStart.sh');
+    shell.exec('BashScripts/OctoprintStart.sh &');
   }else{
     if(command === 'shutdown'){
       shell.exec('BashScripts/OctoprintShutDown.sh');
