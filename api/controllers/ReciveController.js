@@ -7,27 +7,40 @@ const bot = new TelegramBot(token, {polling: true});
 
 const shell = require('shelljs');
 // Matches "/echo [whatever]"
-bot.onText(/\/octoprint (.+)/, (msg, match) => {
+
+bot.onText(/\/octoprint/,(msg, match) => {
   // 'msg' is the received Message from Telegram
   // 'match' is the result of executing the regexp above on the text content
   // of the message
 
   const chatId = msg.chat.id;
   //shell.exec('~/OctoPrint/venv/bin/octoprint serve > temp &');
+  console.log('pepito');
+  bot.sendMessage(chatId,"What do you want to do with Octoprint?",{
+    reply_markup: {
+    keyboard: [
+      [{text: "Start server"}],
+      [{text: "Shutdown server"}],
+    ],
+    one_time_keyboard: true,
+  }
+  });
+});
 
-  const command = match[1]; // the captured "whatever"
+bot.on('message',(msg) => {
+  const chatId = msg.chat.id;
+  const command = msg.text; // the captured "whatever"
 
   switch (command) {
-    case 'start':
+    case 'Start server':
       shell.exec('~/OctoPrint/venv/bin/octoprint daemon start');
+      bot.sendMessage(chatId,'Octoprint server started');
       break;
-    case 'shutdown':
+    case 'Shutdown server':
       shell.exec('killall octoprint');
+      bot.sendMessage(chatId, 'Octoprint server turned off');
       break;
   }
-
-  // send back the matched "whatever" to the chat
-  bot.sendMessage(chatId, resp);//'Octoprint server started u\'U0001F525\'');
 });
 
 // Listen for any kind of message. There are different kinds of
@@ -36,6 +49,8 @@ bot.onText(/\/octoprint (.+)/, (msg, match) => {
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   console.log(msg.text);
+
+
 
   //shell.exec(comandToExecute, {silent:true}).stdout;
   //you need little improvisation
