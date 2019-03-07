@@ -22,10 +22,7 @@ bot.onText(/\/octoprint (.+)/, (msg, match) => {
       shell.exec('~/OctoPrint/venv/bin/octoprint daemon start');
       break;
     case 'shutdown':
-      shell.exec('~/OctoPrint/venv/bin/octoprint daemon stop');
-      break;
-    case 'restart':
-      shell.exec('~/OctoPrint/venv/bin/octoprint daemon restart');
+      shell.exec('killall octoprint');
       break;
   }
 
