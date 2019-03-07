@@ -17,12 +17,16 @@ bot.onText(/\/octoprint (.+)/, (msg, match) => {
 
   const command = match[1]; // the captured "whatever"
 
-  if(command === 'start'){
-    shell.exec('BashScripts/OctoprintStart.sh &');
-  }else{
-    if(command === 'shutdown'){
-      shell.exec('BashScripts/OctoprintShutDown.sh');
-    }
+  switch (command) {
+    case 'start':
+      shell.exec('~/OctoPrint/venv/bin/octoprint daemon start');
+      break;
+    case 'shutdown':
+      shell.exec('~/OctoPrint/venv/bin/octoprint daemon stop');
+      break;
+    case 'restart':
+      shell.exec('~/OctoPrint/venv/bin/octoprint daemon restart');
+      break;
   }
 
   // send back the matched "whatever" to the chat

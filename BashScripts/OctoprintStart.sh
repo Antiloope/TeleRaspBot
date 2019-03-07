@@ -1,7 +1,4 @@
 #!/bin/bash
 
-LOGFILE="OctoprintServer.log"
+~/OctoPrint/venv/bin/octoprint daemon start
 
-echo "Starting octoprint server - Log file: $LOGFILE"
-~/OctoPrint/venv/bin/octoprint serve > $LOGFILE
-exit 1
