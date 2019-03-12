@@ -1,4 +1,3 @@
-
 const TelegramBot = require('node-telegram-bot-api');
 
 const token = '774701290:AAE7zDrg1RWacikKrk3bWzGKHfCamtAB5h8';
@@ -8,8 +7,6 @@ const bot = new TelegramBot(token, {polling: true});
 const fs = require('fs');
 
 const shell = require('shelljs');
-// Matches "/echo [whatever]"
-
 
 printer = {
   msg:function (msg,pos,chat) {
@@ -22,12 +19,12 @@ printer = {
           reply_markup:{
             inline_keyboard: [[
               {
-                text: 'Octoprint',
+                text: 'Octoprint  \u{1F419}',
                 callback_data: '/printer octoprint'
-              },{
-                text: 'Cancel',
-                callback_data: 'cancel'
-              }
+              }],[{
+              text: 'Cancel  \u{274C}',
+              callback_data: 'cancel'
+            }
             ]]
           }
         });
@@ -55,15 +52,15 @@ octoprint = {
           reply_markup:{
             inline_keyboard: [[
               {
-                text: 'Status',
+                text: 'Status \u{1F4DD}',
                 callback_data: '/printer octoprint status'
-              },{
-                text: 'Start',
-                callback_data: '/printer octoprint start'
-              }, {
-                text: 'Shutdown',
-                callback_data: '/printer octoprint shutdown'
-              }
+              }],[{
+              text: 'Start \u{25B6}',
+              callback_data: '/printer octoprint start'
+            }, {
+              text: 'Shutdown \u{26A1}',
+              callback_data: '/printer octoprint shutdown'
+            }
             ]]
           }
         });
@@ -88,14 +85,20 @@ octoprint = {
   },
 };
 
+// Matches "/echo [whatever]"
+
 bot.on("callback_query", (callbackQuery) => {
   const message = callbackQuery.data;
   const chat = callbackQuery.message.chat.id;
-
   com = message.split(" ");
   switch (com[0]) {
     case "/printer":
       printer.msg(com,0,chat);
+      bot.deleteMessage(chat,callbackQuery.message.message_id);
+      break;
+    case "cancel":
+      bot.deleteMessage(chat,callbackQuery.message.message_id);
+      bot.sendMessage(chat,"Operation canceled");
       break;
   }
 });
