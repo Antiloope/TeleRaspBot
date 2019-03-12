@@ -17,6 +17,21 @@ printer = {
       case 'octoprint':
         octoprint.msg(msg,pos+1,chat);
         break;
+      default:
+        bot.sendMessage(chat,"Select an option",{
+          reply_markup:{
+            inline_keyboard: [[
+              {
+                text: 'Octoprint',
+                callback_data: '/printer octoprint'
+              },{
+                text: 'Cancel',
+                callback_data: 'cancel'
+              }
+            ]]
+          }
+        });
+        break;
     }
   }
 };
@@ -34,6 +49,24 @@ octoprint = {
         break;
       case 'status':
         this.status(msg,pos,chat);
+        break;
+      default:
+        bot.sendMessage(chat,"Select an option",{
+          reply_markup:{
+            inline_keyboard: [[
+              {
+                text: 'Status',
+                callback_data: '/printer octoprint status'
+              },{
+                text: 'Start',
+                callback_data: '/printer octoprint start'
+              }, {
+                text: 'Shutdown',
+                callback_data: '/printer octoprint shutdown'
+              }
+            ]]
+          }
+        });
         break;
     }
   },
@@ -55,6 +88,17 @@ octoprint = {
   },
 };
 
+bot.on("callback_query", (callbackQuery) => {
+  const message = callbackQuery.data;
+  const chat = callbackQuery.message.chat.id;
+
+  com = message.split(" ");
+  switch (com[0]) {
+    case "/printer":
+      printer.msg(com,0,chat);
+      break;
+  }
+});
 
 bot.onText(/\//,async (msg, match) => {
   // 'msg' is the received Message from Telegram
@@ -75,6 +119,7 @@ bot.onText(/\//,async (msg, match) => {
     }
   });*/
   const chatId = msg.chat.id;
+
   if(match[0]==="/"){
     com = msg.text.split(" ");
     switch (com[0]) {
